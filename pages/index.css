@@ -1,0 +1,42 @@
+@import url(../vendor/normalize.css);
+@import url(../vendor/fonts.css);
+@import url(../blocks/root/root.css);
+@import url(../blocks/header/header.css);
+@import url(../blocks/logo/logo.css);
+@import url(../blocks/profile/profile.css);
+@import url(../blocks/user-info/user-info.css);
+@import url(../blocks/button/button.css);
+@import url(../blocks/places-list/places-list.css);
+@import url(../blocks/place-card/place-card.css);
+@import url(../blocks/popup/popup.css);
+@import url(../blocks/popup-edit/popup-edit.css);
+@import url(../blocks/popup-image/popup-image.css);
+
+body {
+  background-color: #000;
+}
+
+
+.error-message {
+  color: #FF3333;
+  font-size: 12px;
+}
+
+.error-message_about {
+  position: absolute;
+  color: #FF3333;
+  font-size: 12px;
+  
+}
+
+.popup-edit__input_invalid-margin {
+  margin-bottom: 6px;
+}
+
+
+.error-message_link {
+  position: absolute;
+  color: #FF3333;
+  font-size: 12px;
+  
+}
