@@ -4,9 +4,10 @@
   - Свой файл для массива карточек.
   - Файл для инициализации проекта.
 */
-const serverUrl = NODE_ENV === 'development' ? 'http://praktikum.tk/название_группы' : 'https://praktikum.tk/название_группы';
+import Card from './card.js';
+const serverUrl = NODE_ENV === 'development' ? 'http://praktikum.tk/cohort2' : 'https://praktikum.tk/cohort2';
 
-class Card {
+/* class Card {
   constructor(name, link) {
     this.cardElement = this.create(name, link);
     this.cardElement
@@ -52,7 +53,7 @@ class Card {
 
     return placeCard;
   }
-}
+} */
 class CardList {
   constructor(container, cards) {
     this.container = container;
