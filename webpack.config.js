@@ -26,19 +26,27 @@ module.exports = {
                     name: '[name].[ext]'
                 }
             },
-        {
-            loader: 'image-webpack-loader',
-            options: {
-                bypassOnDebug: true,
-                disable: true,
-            }
-        }]
+            {
+                loader: 'image-webpack-loader',
+                options: {
+                    bypassOnDebug: true,
+                    disable: true,
+                }
+            }]
         },
         {
             test: /\.css$/, // применять это правило только к CSS-файлам
             use: [(isDev ? 'style-loader' : MiniCssExtractPlugin.loader), 'css-loader', 'postcss-loader'] // к этим файлам нужно применить пакеты, которые мы уже установили
         }
         ]
+    },
+    resolve: {
+        alias: {
+            images: path.resolve(__dirname, "images")
+        }
+    },
+    devServer: {
+        overlay: true
     },
     plugins: [
         new MiniCssExtractPlugin({ filename: 'style.[contenthash].css' }),
@@ -52,10 +60,10 @@ module.exports = {
             assetNameRegExp: /\.css$/g,
             cssProcessor: require('cssnano'),
             cssProcessorPluginOptions: {
-                    preset: ['default'],
+                preset: ['default'],
             },
             canPrint: true
-       }),
+        }),
         new WebpackMd5Hash(),
         new webpack.DefinePlugin({
             'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
