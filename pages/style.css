@@ -22,8 +22,7 @@ body {
   font-size: 12px;
 }
 
-.error-message_about {
-  position: absolute;
+.error-message_about {  
   color: #FF3333;
   font-size: 12px;
   
@@ -34,8 +33,7 @@ body {
 }
 
 
-.error-message_link {
-  position: absolute;
+.error-message_link {  
   color: #FF3333;
   font-size: 12px;
   
