@@ -18,6 +18,21 @@ module.exports = {
             test: /\.js$/, // регулярное выражение, которое ищет все js файлы
             use: { loader: "babel-loader" }, // весь JS обрабатывается пакетом babel-loader
             exclude: /node_modules/ // исключает папку node_modules
+        }, {
+            test: /\.(woff|woff2|ttf|otf|png|jpe?g|gif|svg)$/i,
+            use: [{
+                loader: 'file-loader',
+                options: {
+                    name: '[name].[ext]'
+                }
+            },
+        {
+            loader: 'image-webpack-loader',
+            options: {
+                bypassOnDebug: true,
+                disable: true,
+            }
+        }]
         },
         {
             test: /\.css$/, // применять это правило только к CSS-файлам
