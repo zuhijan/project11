@@ -4,6 +4,8 @@
   - Свой файл для массива карточек.
   - Файл для инициализации проекта.
 */
+const serverUrl = NODE_ENV === 'development' ? 'http://praktikum.tk/название_группы' : 'https://praktikum.tk/название_группы';
+
 class Card {
   constructor(name, link) {
     this.cardElement = this.create(name, link);
@@ -88,7 +90,7 @@ class Popup {
 }
 
 const options = {
-  baseUrl: "http://95.216.175.5/cohort2",
+  baseUrl: serverUrl,
   headers: {
     authorization: "9922978c-7064-4768-980e-da5942d98e1a",
     "Content-Type": "application/json"
@@ -117,13 +119,7 @@ class Api {
       this.getResponseJson(res)
     );
   }
-  patchProfile(name, about) {
-    /* Надо исправить: необходимо также как в методах getProfileValue и getInitialCards возвращать промис,
-    чтобы сохранять данные на странице только после ответа сервера. Сейчас данные пользователя сохраняются
-     на странице независимо от того дошли ли они до сервера.ok
-     
-     Возврат промиса не добавлен, должно быть return fetch(`${this.baseUrl}/users/me`, {   
-     */
+  patchProfile(name, about) {    
     return fetch(`${this.baseUrl}/users/me`, {   
       method: "PATCH",
       headers: this.headers,
@@ -145,24 +141,12 @@ class Api {
     })
       .then(res => this.getResponseJson(res))      
   }
-  //   numberLike() {
-  //     return fetch(`${this.baseUrl}/cards`, {headers: this.headers})
-  //     .then((res) =>  this.getResponseJson(res))
-  //     .then((res) =>
-  //     { res.forEach((elem) => {
-  //         console.log(elem.likes.length);
-  //       })
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     })
-  // }
 }
 
 const root = document.querySelector(".root");
-const popup = root.querySelector(".popup"); // 1 попап
-const popupEdit = root.querySelector(".popup-edit"); //2 попап
-const popupImage = root.querySelector(".popup-image"); //3 попап
+const popup = root.querySelector(".popup");
+const popupEdit = root.querySelector(".popup-edit"); 
+const popupImage = root.querySelector(".popup-image"); 
 const form = document.forms.new;
 const buttonAdd = form.elements.button;
 const title = form.elements.title;
@@ -174,12 +158,8 @@ const popupEditInputAbout = formEdit.elements.about;
 const userInfoName = root.querySelector(".user-info__name");
 const userInfoJob = root.querySelector(".user-info__job");
 const userInfoPhoto = root.querySelector(".user-info__photo");
-const popupErrorMessage = popup.querySelectorAll(".error-message"); //сделать лучше потом
+const popupErrorMessage = popup.querySelectorAll(".error-message"); 
 const popupEditErrorMessage = popupEdit.querySelectorAll(".error-message");
-// const placeList = document.querySelector(".places-list");
-// const placeCardConst = placeList.querySelectorAll("place-card");
-// const likeCoundConst = placeList.querySelectorAll("place-card__like-count");
-
 const popupCard = new Popup(popup);
 const popupEditProfile = new Popup(popupEdit);
 const popupCardImage = new Popup(popupImage);
@@ -210,21 +190,16 @@ api
   .getInitialCards()
   .then(res => {
     res.forEach(card => cardList.addCard(card.name, card.link))
-
-    // new CardList(document.querySelector(".places-list"), res);
-    // res.forEach((elem) => {
-    //   (root.querySelector("place-card__like-count").closest(elem)).textContent = elem.likes.length;
-    // })
   })
   .catch(err => {
     console.log(err);
   });
-//api.numberLike();
+
 //==========================
 function profileValue() {
   popupEditInputName.value = userInfoName.textContent;
   popupEditInputAbout.value = userInfoJob.textContent;
-  popupEditErrorMessage[0].textContent = ""; //сделать лучше потом
+  popupEditErrorMessage[0].textContent = ""; 
   popupEditErrorMessage[1].textContent = "";
 }
 function validate(event) {
@@ -258,7 +233,7 @@ root.addEventListener("click", function(event) {
   if (event.target.classList.contains("user-info__button")) {
     form.reset();
     popupCard.open();
-    popupErrorMessage[0].textContent = ""; //сделать лучше потом
+    popupErrorMessage[0].textContent = ""; 
     popupErrorMessage[1].textContent = "";
     buttonAdd.classList.remove("popup__button_active");
     buttonAdd.setAttribute("disabled", true);
@@ -288,14 +263,7 @@ buttonAdd.addEventListener("click", function() {
   form.reset();
 });
 buttonSaveProfile.addEventListener("click", function() {
-  // event.preventDefault();
   render(true, buttonSaveProfile);
-
-  /* Надо исправить: из метода patchProfile промис не возвращается, поэтому ошибка
-  в консоли при сохранении данных:
-    Uncaught TypeError: Cannot read property 'then' of undefined
-      at HTMLButtonElement.<anonymous> (script.js:332)
-  */
   api.patchProfile(popupEditInputName.value, popupEditInputAbout.value)
   .then(() => {
      userInfoName.textContent = popupEditInputName.value;
@@ -311,7 +279,6 @@ buttonSaveProfile.addEventListener("click", function() {
 
   
 });
-//сделать лучше надо
 form.addEventListener("input", function() {
   if (
     title.value.trim().length <= 1 ||
@@ -345,30 +312,6 @@ popupEditInputAbout.addEventListener("input", validate);
 title.addEventListener("input", validate);
 link.addEventListener("input", validate);
 
-/*
- По всей работе: Хорошая работа, качественная структура кода, использования делегирования, понятные названия.
- Нужно исправить неправильное поведение попапа.
-*/
-
-/* По всей работе: Задание выполнено. Отличная работа! */
-//authorization: '9922978c-7064-4768-980e-da5942d98e1a'
 
 
 
-/*
-  Методы класса класса Api организованы довольно хорошо. Отлично, что getResponseJson 
-  вынесено в отдельный метод чтобы не дублировать проверку.
-
-  Но при вызове patchProfile данные изменяются на странице до ответа сервера, это нужно исправить.
-
-*/
-
-
-/*
-  Хорошо, что некоторые правки внесены, код стал лучше, но из метода patchProfile
-  промис все ещё не возвращается, поэтому при сохранении профиля в консоли ошибка
-
-  script.js:332 Uncaught TypeError: Cannot read property 'then' of undefined
-    at HTMLButtonElement.<anonymous> (script.js:332)
-
-*/
